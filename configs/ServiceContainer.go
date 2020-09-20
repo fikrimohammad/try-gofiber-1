@@ -21,7 +21,7 @@ func (k *kernel) InjectPositionsController() controllers.PositionsController {
 	dsn := "user=postgres password=postgres dbname=pl_development port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		panic("Error when connecting to database")
 	}
 	db.AutoMigrate(&models.Position{})
 

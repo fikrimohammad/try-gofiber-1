@@ -10,8 +10,8 @@ type PositionRepository struct {
 	gorm.DB
 }
 
-// GetPositions is a function to fetch all positions
-func (repository *PositionRepository) GetPositions() (models.Positions, error) {
+// FindPositions is a function to fetch all positions
+func (repository *PositionRepository) FindPositions() (models.Positions, error) {
 	positions := models.Positions{}
 	err := repository.Find(&positions).Error
 	if err != nil {
@@ -20,12 +20,21 @@ func (repository *PositionRepository) GetPositions() (models.Positions, error) {
 	return positions, nil
 }
 
-// GetPositionByID is a function to fetch a position by ID
-func (repository *PositionRepository) GetPositionByID(id int) (models.Position, error) {
+// FindPositionByID is a function to fetch a position by ID
+func (repository *PositionRepository) FindPositionByID(id int) (models.Position, error) {
 	position := models.Position{}
 	err := repository.First(&position, id).Error
 	if err != nil {
 		return position, err
 	}
 	return position, nil
+}
+
+// StoreNewPosition is a function to store a new position
+func (repository *PositionRepository) StoreNewPosition(newPosition *models.Position) (models.Position, error) {
+	res := repository.Create(&newPosition)
+	if res.Error != nil {
+		return *newPosition, res.Error
+	}
+	return *newPosition, nil
 }

@@ -4,6 +4,7 @@ import "github.com/fikrimohammad/Premier-League-DB/models"
 
 // IPositionRepository Docs
 type IPositionRepository interface {
-	GetPositions() (models.Positions, error)
-	GetPositionByID(id int) (models.Position, error)
+	FindPositions() (models.Positions, error)
+	FindPositionByID(id int) (models.Position, error)
+	StoreNewPosition(position *models.Position) (models.Position, error)
 }

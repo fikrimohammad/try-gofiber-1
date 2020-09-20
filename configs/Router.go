@@ -3,32 +3,36 @@ package configs
 import (
 	"sync"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // IAppRouter is an interface for AppRouter
 type IAppRouter interface {
-	InitAppRouter(app *fiber.App) *fiber.App
+	RegisterAPI(app *fiber.App)
 }
 
 type router struct{}
 
-// InitRouter for route initialization
-func (router *router) InitAppRouter(app *fiber.App) *fiber.App {
+// RegisterAPI is a function to initialize API routes
+func (router *router) RegisterAPI(app *fiber.App) {
 	api := app.Group("/api")
-	api.Get("/healthcheck", func(c *fiber.Ctx) {
-		c.Status(200).Send("")
+	api.Get("/healthcheck", func(c *fiber.Ctx) error {
+		return c.Status(200).SendString("")
 	})
 
+	apiV1 := api.Group("/v1")
+	RegisterPositionsAPI(apiV1)
+}
+
+// RegisterPositionsAPI is a function to initialize Positions API
+func RegisterPositionsAPI(api fiber.Router) {
 	positionsController := ServiceContainer().InjectPositionsController()
 	positionsAPI := api.Group("/positions")
 	positionsAPI.Get("/", positionsController.All)
 	positionsAPI.Get("/:id", positionsController.Show)
-	// positionsAPI.Post("/", positionsController.Create)
+	positionsAPI.Post("/", positionsController.Create)
 	// positionsAPI.Patch("/:id", positionsController.Update)
 	// positionsAPI.Delete("/:id", positionsController.Delete)
-
-	return app
 }
 
 var (
@@ -36,7 +40,7 @@ var (
 	routerOnce sync.Once
 )
 
-// AppRouter is a function to build routes
+// AppRouter is a function to initialize IAppRouter instance
 func AppRouter() IAppRouter {
 	if r == nil {
 		routerOnce.Do(func() {

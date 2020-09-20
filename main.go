@@ -4,22 +4,22 @@ import (
 	"log"
 
 	"github.com/fikrimohammad/Premier-League-DB/configs"
-	"github.com/gofiber/cors"
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/middleware"
-	"github.com/gofiber/helmet"
-	"github.com/gofiber/logger"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 func main() {
 	app := fiber.New()
 	// app.Settings.Prefork = true
 
-	app.Use(middleware.Recover())
-	app.Use(helmet.New())
+	app.Use(recover.New())
 	app.Use(cors.New())
 	app.Use(logger.New())
 
-	app = configs.AppRouter().InitAppRouter(app)
-	log.Fatal(app.Listen(3000))
+	router := configs.AppRouter()
+	router.RegisterAPI(app)
+
+	log.Fatal(app.Listen(":3000"))
 }
