@@ -11,4 +11,5 @@ type IPositionService interface {
 	FindByID(id int) (models.Position, error)
 	CreatePosition(input inputs.PositionCreateInput) (models.Position, error)
 	CreatePositions(input inputs.PositionCreateManyInput) (models.Positions, error)
+	DeleteByID(id int) (models.Position, error)
 }

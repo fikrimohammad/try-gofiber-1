@@ -91,12 +91,16 @@ func (controller *PositionsController) CreateMany(c *fiber.Ctx) error {
 // 	})
 // }
 
-// func (controller *PositionsController) Delete(c *fiber.Ctx) {
-// 	// Call service to fetch position by params id
-// 	// Delete position
-
-// 	c.Status(200).JSON(fiber.Map{
-// 		"data":     true,
-// 		"metadata": true,
-// 	})
-// }
+// Delete is an API to delete a position by ID
+func (controller *PositionsController) Delete(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	deletedPosition, err := controller.DeleteByID(id)
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	return c.Status(200).JSON(fiber.Map{
+		"data": deletedPosition,
+	})
+}

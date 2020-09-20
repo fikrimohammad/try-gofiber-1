@@ -47,3 +47,16 @@ func (repository *PositionRepository) StoreNewPositions(newPositions models.Posi
 	}
 	return newPositions, nil
 }
+
+// DeletePositionByID is a function to delete a position by ID
+func (repository *PositionRepository) DeletePositionByID(id int) (models.Position, error) {
+	deletedPosition, fetchErr := repository.FindPositionByID(id)
+	if fetchErr != nil {
+		return deletedPosition, fetchErr
+	}
+	deleteErr := repository.Delete(&deletedPosition).Error
+	if deleteErr != nil {
+		return deletedPosition, deleteErr
+	}
+	return deletedPosition, nil
+}

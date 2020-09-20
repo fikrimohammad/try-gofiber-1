@@ -33,7 +33,7 @@ func RegisterPositionsAPI(api fiber.Router) {
 	positionsAPI.Post("/", positionsController.Create)
 	positionsAPI.Post("/create_many", positionsController.CreateMany)
 	// positionsAPI.Patch("/:id", positionsController.Update)
-	// positionsAPI.Delete("/:id", positionsController.Delete)
+	positionsAPI.Delete("/:id", positionsController.Delete)
 }
 
 var (

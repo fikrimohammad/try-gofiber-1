@@ -34,3 +34,9 @@ func (service *PositionService) CreatePositions(input inputs.PositionCreateManyI
 	newPositions, err := service.StoreNewPositions(input.Output())
 	return newPositions, err
 }
+
+// DeleteByID is a service to delete a position by ID
+func (service *PositionService) DeleteByID(id int) (models.Position, error) {
+	deletedPosition, err := service.DeletePositionByID(id)
+	return deletedPosition, err
+}
