@@ -61,6 +61,27 @@ func (controller *PositionsController) Create(c *fiber.Ctx) error {
 	})
 }
 
+// CreateMany is an API to create positions
+func (controller *PositionsController) CreateMany(c *fiber.Ctx) error {
+	positionCreateManyinput, inputErr := inputs.NewPositionCreateManyInput(c)
+	if inputErr != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"errors": inputErr,
+		})
+	}
+
+	newPositions, err := controller.CreatePositions(positionCreateManyinput)
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"errors": err,
+		})
+	}
+
+	return c.Status(201).JSON(fiber.Map{
+		"data": newPositions,
+	})
+}
+
 // func (controller *PositionsController) Update(c *fiber.Ctx) {
 // 	// Call service to fetch position by params id
 // 	// Update position

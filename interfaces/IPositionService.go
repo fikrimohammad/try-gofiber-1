@@ -9,5 +9,6 @@ import (
 type IPositionService interface {
 	List() (models.Positions, error)
 	FindByID(id int) (models.Position, error)
-	CreatePosition(input *inputs.PositionCreateInput) (models.Position, error)
+	CreatePosition(input inputs.PositionCreateInput) (models.Position, error)
+	CreatePositions(input inputs.PositionCreateManyInput) (models.Positions, error)
 }

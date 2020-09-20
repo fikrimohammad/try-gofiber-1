@@ -6,25 +6,31 @@ import (
 	"github.com/fikrimohammad/Premier-League-DB/models"
 )
 
-// PositionService Docs
+// PositionService represents services for positions
 type PositionService struct {
 	interfaces.IPositionRepository
 }
 
-// List is a function to fetch all positions
+// List is a service to fetch all positions
 func (service *PositionService) List() (models.Positions, error) {
 	positions, err := service.FindPositions()
 	return positions, err
 }
 
-// FindByID is a function to fetch a position by ID
+// FindByID is a service to fetch a position by ID
 func (service *PositionService) FindByID(id int) (models.Position, error) {
 	position, err := service.FindPositionByID(id)
 	return position, err
 }
 
-// Create is function to create a new position
-func (service *PositionService) CreatePosition(input *inputs.PositionCreateInput) (models.Position, error) {
-	position, err := service.StoreNewPosition(input.Output())
-	return position, err
+// CreatePosition is a service to create a new position
+func (service *PositionService) CreatePosition(input inputs.PositionCreateInput) (models.Position, error) {
+	newPosition, err := service.StoreNewPosition(input.Output())
+	return newPosition, err
+}
+
+// CreatePositions is a service to create new positions
+func (service *PositionService) CreatePositions(input inputs.PositionCreateManyInput) (models.Positions, error) {
+	newPositions, err := service.StoreNewPositions(input.Output())
+	return newPositions, err
 }

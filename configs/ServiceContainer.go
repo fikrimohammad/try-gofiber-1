@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// IServiceContainer represents ServiceContainer instance
 type IServiceContainer interface {
 	InjectPositionsController() controllers.PositionsController
 }
@@ -25,7 +26,7 @@ func (k *kernel) InjectPositionsController() controllers.PositionsController {
 	}
 	db.AutoMigrate(&models.Position{})
 
-	positionRepository := &repositories.PositionRepository{*db}
+	positionRepository := &repositories.PositionRepository{db}
 	positionService := &services.PositionService{positionRepository}
 	positionsController := controllers.PositionsController{positionService}
 
