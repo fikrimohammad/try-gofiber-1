@@ -35,6 +35,12 @@ func (service *PositionService) CreatePositions(input inputs.PositionCreateManyI
 	return newPositions, err
 }
 
+// UpdatePosition is a service to update a position
+func (service *PositionService) UpdatePosition(id int, input inputs.PositionUpdateInput) (models.Position, error) {
+	modifiedPosition, err := service.UpdatePositionByID(id, input.Output())
+	return modifiedPosition, err
+}
+
 // DeleteByID is a service to delete a position by ID
 func (service *PositionService) DeleteByID(id int) (models.Position, error) {
 	deletedPosition, err := service.DeletePositionByID(id)

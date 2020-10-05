@@ -82,14 +82,25 @@ func (controller *PositionsController) CreateMany(c *fiber.Ctx) error {
 	})
 }
 
-// func (controller *PositionsController) Update(c *fiber.Ctx) {
-// 	// Call service to fetch position by params id
-// 	// Update position
-// 	c.Status(200).JSON(fiber.Map{
-// 		"data":     true,
-// 		"metadata": true,
-// 	})
-// }
+// Update is an API to update a position
+func (controller *PositionsController) Update(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.Params("id"))
+	positionUpdateInput, inputErr := inputs.NewPositionUpdateInput(c)
+	if inputErr != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"errors": inputErr,
+		})
+	}
+	modifiedPosition, err := controller.UpdatePosition(id, positionUpdateInput)
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	return c.Status(200).JSON(fiber.Map{
+		"data": modifiedPosition,
+	})
+}
 
 // Delete is an API to delete a position by ID
 func (controller *PositionsController) Delete(c *fiber.Ctx) error {

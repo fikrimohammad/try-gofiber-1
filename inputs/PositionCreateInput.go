@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// PositionCreateInput is a struct to store parameters for storing a position
+// PositionCreateInput is a struct to store parameters for storing a new position
 type PositionCreateInput struct {
 	Name string `json:"name" xml:"name" form:"name"`
 }

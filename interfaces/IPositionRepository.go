@@ -8,5 +8,6 @@ type IPositionRepository interface {
 	FindPositionByID(id int) (models.Position, error)
 	StoreNewPosition(position models.Position) (models.Position, error)
 	StoreNewPositions(positions models.Positions) (models.Positions, error)
+	UpdatePositionByID(id int, position models.Position) (models.Position, error)
 	DeletePositionByID(id int) (models.Position, error)
 }

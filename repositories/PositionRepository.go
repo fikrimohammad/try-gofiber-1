@@ -48,6 +48,19 @@ func (repository *PositionRepository) StoreNewPositions(newPositions models.Posi
 	return newPositions, nil
 }
 
+// UpdatePositionByID is a function to update a position by ID
+func (repository *PositionRepository) UpdatePositionByID(id int, modifiedPosition models.Position) (models.Position, error) {
+	position, fetchErr := repository.FindPositionByID(id)
+	if fetchErr != nil {
+		return position, fetchErr
+	}
+	updateErr := repository.Model(&position).Updates(modifiedPosition).Error
+	if updateErr != nil {
+		return position, updateErr
+	}
+	return position, nil
+}
+
 // DeletePositionByID is a function to delete a position by ID
 func (repository *PositionRepository) DeletePositionByID(id int) (models.Position, error) {
 	deletedPosition, fetchErr := repository.FindPositionByID(id)
