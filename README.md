@@ -1,2 +1,3 @@
 # try-gofiber-1
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3a5f4f865c54b4e8a72c8232db6c95c)](https://app.codacy.com/manual/fikri.mohammad30/try-gofiber-1?utm_source=github.com&utm_medium=referral&utm_content=fikrimohammad/try-gofiber-1&utm_campaign=Badge_Grade_Settings)
+[![Go Report Card](https://goreportcard.com/badge/github.com/fikrimohammad/try-gofiber-1)](https://goreportcard.com/report/github.com/fikrimohammad/try-gofiber-1)
