@@ -22,6 +22,7 @@ func (router *router) RegisterAPI(app *fiber.App) {
 
 	apiV1 := api.Group("/v1")
 	RegisterPositionsAPI(apiV1)
+	RegisterClubsAPI(apiV1)
 }
 
 // RegisterPositionsAPI is a function to initialize Positions API
@@ -34,6 +35,18 @@ func RegisterPositionsAPI(api fiber.Router) {
 	positionsAPI.Post("/create_many", positionsController.CreateMany)
 	positionsAPI.Patch("/:id", positionsController.Update)
 	positionsAPI.Delete("/:id", positionsController.Delete)
+}
+
+// RegisterClubsAPI is a function to initialize Clubs API
+func RegisterClubsAPI(api fiber.Router) {
+	clubsController := ServiceContainer().InjectClubsController()
+	clubsAPI := api.Group("/clubs")
+	clubsAPI.Get("/", clubsController.All)
+	clubsAPI.Get("/:id", clubsController.Show)
+	clubsAPI.Post("/", clubsController.Create)
+	clubsAPI.Post("/create_many", clubsController.CreateMany)
+	clubsAPI.Patch("/:id", clubsController.Update)
+	clubsAPI.Delete("/:id", clubsController.Delete)
 }
 
 var (

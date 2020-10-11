@@ -4,33 +4,33 @@ import (
 	"sync"
 
 	"github.com/fikrimohammad/Premier-League-DB/controllers"
-	"github.com/fikrimohammad/Premier-League-DB/models"
+	"github.com/fikrimohammad/Premier-League-DB/database"
 	"github.com/fikrimohammad/Premier-League-DB/repositories"
 	"github.com/fikrimohammad/Premier-League-DB/services"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 // IServiceContainer represents ServiceContainer instance
 type IServiceContainer interface {
 	InjectPositionsController() controllers.PositionsController
+	InjectClubsController() controllers.ClubsController
 }
 
 type kernel struct{}
 
 func (k *kernel) InjectPositionsController() controllers.PositionsController {
-	dsn := "user=postgres password=postgres dbname=pl_development port=5432 sslmode=disable"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic("Error when connecting to database")
-	}
-	db.AutoMigrate(&models.Position{})
-
-	positionRepository := &repositories.PositionRepository{db}
+	positionRepository := &repositories.PositionRepository{database.Instance()}
 	positionService := &services.PositionService{positionRepository}
 	positionsController := controllers.PositionsController{positionService}
 
 	return positionsController
+}
+
+func (k *kernel) InjectClubsController() controllers.ClubsController {
+	clubRepository := &repositories.ClubRepository{database.Instance()}
+	clubService := &services.ClubService{clubRepository}
+	clubsController := controllers.ClubsController{clubService}
+
+	return clubsController
 }
 
 var (
