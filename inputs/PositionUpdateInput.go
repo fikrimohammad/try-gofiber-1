@@ -13,10 +13,8 @@ type PositionUpdateInput struct {
 // NewPositionUpdateInput is a function to initialize PositionUpdateInput instance
 func NewPositionUpdateInput(c *fiber.Ctx) (PositionUpdateInput, error) {
 	positionUpdateInput := PositionUpdateInput{}
-	if err := c.BodyParser(&positionUpdateInput); err != nil {
-		return positionUpdateInput, err
-	}
-	return positionUpdateInput, nil
+	err := c.BodyParser(&positionUpdateInput)
+	return positionUpdateInput, err
 }
 
 // Output is a function to convert input into a new Position model

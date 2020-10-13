@@ -28,10 +28,8 @@ type StadiumCreateInput struct {
 // NewClubCreateInput is a function to initialize ClubCreateInput instance
 func NewClubCreateInput(c *fiber.Ctx) (ClubCreateInput, error) {
 	clubCreateInput := ClubCreateInput{}
-	if err := c.BodyParser(&clubCreateInput); err != nil {
-		return clubCreateInput, err
-	}
-	return clubCreateInput, nil
+	err := c.BodyParser(&clubCreateInput)
+	return clubCreateInput, err
 }
 
 // Output is a function to convert input into a new Club model

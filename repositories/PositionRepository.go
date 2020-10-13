@@ -14,38 +14,26 @@ type PositionRepository struct {
 func (repository *PositionRepository) FindPositions() (models.Positions, error) {
 	positions := models.Positions{}
 	err := repository.Find(&positions).Error
-	if err != nil {
-		return positions, err
-	}
-	return positions, nil
+	return positions, err
 }
 
 // FindPositionByID is a function to fetch a position by ID
 func (repository *PositionRepository) FindPositionByID(id int) (models.Position, error) {
 	position := models.Position{}
 	err := repository.First(&position, id).Error
-	if err != nil {
-		return position, err
-	}
-	return position, nil
+	return position, err
 }
 
 // StoreNewPosition is a function to store a new position
 func (repository *PositionRepository) StoreNewPosition(newPosition models.Position) (models.Position, error) {
-	res := repository.Create(&newPosition)
-	if res.Error != nil {
-		return newPosition, res.Error
-	}
-	return newPosition, nil
+	err := repository.Create(&newPosition).Error
+	return newPosition, err
 }
 
 // StoreNewPositions is a function to store new positions
 func (repository *PositionRepository) StoreNewPositions(newPositions models.Positions) (models.Positions, error) {
-	res := repository.Create(&newPositions)
-	if res.Error != nil {
-		return newPositions, res.Error
-	}
-	return newPositions, nil
+	err := repository.Create(&newPositions).Error
+	return newPositions, err
 }
 
 // UpdatePositionByID is a function to update a position by ID
@@ -54,11 +42,9 @@ func (repository *PositionRepository) UpdatePositionByID(id int, modifiedPositio
 	if fetchErr != nil {
 		return position, fetchErr
 	}
+
 	updateErr := repository.Model(&position).Updates(modifiedPosition).Error
-	if updateErr != nil {
-		return position, updateErr
-	}
-	return position, nil
+	return position, updateErr
 }
 
 // DeletePositionByID is a function to delete a position by ID
@@ -67,9 +53,7 @@ func (repository *PositionRepository) DeletePositionByID(id int) (models.Positio
 	if fetchErr != nil {
 		return deletedPosition, fetchErr
 	}
+
 	deleteErr := repository.Delete(&deletedPosition).Error
-	if deleteErr != nil {
-		return deletedPosition, deleteErr
-	}
-	return deletedPosition, nil
+	return deletedPosition, deleteErr
 }

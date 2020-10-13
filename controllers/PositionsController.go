@@ -18,9 +18,10 @@ func (controller *PositionsController) All(c *fiber.Ctx) error {
 	positions, err := controller.List()
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"errors": err.Error(),
+			"error": err.Error(),
 		})
 	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"data": positions,
 	})
@@ -28,13 +29,20 @@ func (controller *PositionsController) All(c *fiber.Ctx) error {
 
 // Show is an API to show position by ID
 func (controller *PositionsController) Show(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, parseIntErr := strconv.Atoi(c.Params("id"))
+	if parseIntErr != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"error": parseIntErr.Error(),
+		})
+	}
+
 	position, err := controller.FindByID(id)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{
-			"errors": err.Error(),
+			"error": err.Error(),
 		})
 	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"data": position,
 	})
@@ -45,14 +53,14 @@ func (controller *PositionsController) Create(c *fiber.Ctx) error {
 	positionCreateinput, inputErr := inputs.NewPositionCreateInput(c)
 	if inputErr != nil {
 		return c.Status(422).JSON(fiber.Map{
-			"errors": inputErr,
+			"error": inputErr.Error(),
 		})
 	}
 
 	newPosition, err := controller.CreatePosition(positionCreateinput)
 	if err != nil {
 		return c.Status(422).JSON(fiber.Map{
-			"errors": err,
+			"error": err.Error(),
 		})
 	}
 
@@ -66,14 +74,14 @@ func (controller *PositionsController) CreateMany(c *fiber.Ctx) error {
 	positionCreateManyinput, inputErr := inputs.NewPositionCreateManyInput(c)
 	if inputErr != nil {
 		return c.Status(422).JSON(fiber.Map{
-			"errors": inputErr,
+			"error": inputErr.Error(),
 		})
 	}
 
 	newPositions, err := controller.CreatePositions(positionCreateManyinput)
 	if err != nil {
 		return c.Status(422).JSON(fiber.Map{
-			"errors": err,
+			"error": err.Error(),
 		})
 	}
 
@@ -84,19 +92,27 @@ func (controller *PositionsController) CreateMany(c *fiber.Ctx) error {
 
 // Update is an API to update a position
 func (controller *PositionsController) Update(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, parseIntErr := strconv.Atoi(c.Params("id"))
+	if parseIntErr != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"error": parseIntErr.Error(),
+		})
+	}
+
 	positionUpdateInput, inputErr := inputs.NewPositionUpdateInput(c)
 	if inputErr != nil {
 		return c.Status(422).JSON(fiber.Map{
-			"errors": inputErr,
+			"error": inputErr.Error(),
 		})
 	}
+
 	modifiedPosition, err := controller.UpdatePosition(id, positionUpdateInput)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{
-			"errors": err.Error(),
+			"error": err.Error(),
 		})
 	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"data": modifiedPosition,
 	})
@@ -104,13 +120,20 @@ func (controller *PositionsController) Update(c *fiber.Ctx) error {
 
 // Delete is an API to delete a position by ID
 func (controller *PositionsController) Delete(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, parseIntErr := strconv.Atoi(c.Params("id"))
+	if parseIntErr != nil {
+		return c.Status(422).JSON(fiber.Map{
+			"error": parseIntErr.Error(),
+		})
+	}
+
 	deletedPosition, err := controller.DeleteByID(id)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{
-			"errors": err.Error(),
+			"error": err.Error(),
 		})
 	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"data": deletedPosition,
 	})

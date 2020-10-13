@@ -13,10 +13,8 @@ type PositionCreateManyInput struct {
 // NewPositionCreateManyInput is a function to initialize PositionCreateManyInput
 func NewPositionCreateManyInput(c *fiber.Ctx) (PositionCreateManyInput, error) {
 	positionCreateManyInput := PositionCreateManyInput{}
-	if err := c.BodyParser(&positionCreateManyInput.positionInputs); err != nil {
-		return positionCreateManyInput, err
-	}
-	return positionCreateManyInput, nil
+	err := c.BodyParser(&positionCreateManyInput.positionInputs)
+	return positionCreateManyInput, err
 }
 
 // Output is a function to convert PositionCreateManyInput into array of Position

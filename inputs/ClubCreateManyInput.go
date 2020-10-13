@@ -13,10 +13,8 @@ type ClubCreateManyInput struct {
 // NewClubCreateManyInput is a function to initialize ClubCreateManyInput
 func NewClubCreateManyInput(c *fiber.Ctx) (ClubCreateManyInput, error) {
 	clubCreateManyInput := ClubCreateManyInput{}
-	if err := c.BodyParser(&clubCreateManyInput.clubInputs); err != nil {
-		return clubCreateManyInput, err
-	}
-	return clubCreateManyInput, nil
+	err := c.BodyParser(&clubCreateManyInput.clubInputs)
+	return clubCreateManyInput, err
 }
 
 // Output is a function to convert ClubCreateManyInput into array of Club
